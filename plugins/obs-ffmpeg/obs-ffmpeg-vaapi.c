@@ -336,8 +336,13 @@ static inline void copy_data(AVFrame *pic, const struct encoder_frame *frame,
 static bool vaapi_encode(void *data, struct encoder_frame *frame,
 		struct encoder_packet *packet, bool *received_packet)
 {
+<<<<<<< HEAD
 	struct vaapi_encoder *enc     = data;
 	AVFrame *             hwframe = NULL;
+=======
+	struct vaapi_encoder *enc = data;
+	AVFrame *             hwframe;
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	AVPacket              av_pkt;
 	int                   got_packet;
 	int                   ret;
@@ -352,7 +357,11 @@ static bool vaapi_encode(void *data, struct encoder_frame *frame,
 	if (ret < 0) {
 		warn("vaapi_encode: failed to get buffer for hw frame: %s",
 				av_err2str(ret));
+<<<<<<< HEAD
 		goto fail;
+=======
+		return false;
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	}
 
 	copy_data(enc->vframe, frame, enc->height, enc->context->pix_fmt);
@@ -366,14 +375,22 @@ static bool vaapi_encode(void *data, struct encoder_frame *frame,
 	if (ret < 0) {
 		warn("vaapi_encode: failed to upload hw frame: %s",
 				av_err2str(ret));
+<<<<<<< HEAD
 		goto fail;
+=======
+		return false;
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	}
 
 	ret = av_frame_copy_props(hwframe, enc->vframe);
 	if (ret < 0) {
 		warn("vaapi_encode: failed to copy props to hw frame: %s",
 				av_err2str(ret));
+<<<<<<< HEAD
 		goto fail;
+=======
+		return false;
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	}
 
 	av_init_packet(&av_pkt);
@@ -393,7 +410,11 @@ static bool vaapi_encode(void *data, struct encoder_frame *frame,
 #endif
 	if (ret < 0) {
 		warn("vaapi_encode: Error encoding: %s", av_err2str(ret));
+<<<<<<< HEAD
 		goto fail;
+=======
+		return false;
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	}
 
 	if (got_packet && av_pkt.size) {
@@ -427,10 +448,13 @@ static bool vaapi_encode(void *data, struct encoder_frame *frame,
 	av_packet_unref(&av_pkt);
 	av_frame_free(&hwframe);
 	return true;
+<<<<<<< HEAD
 
 fail:
 	av_frame_free(&hwframe);
 	return false;
+=======
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 }
 
 static void set_visible(obs_properties_t *ppts, const char *name, bool visible)
@@ -464,7 +488,11 @@ static obs_properties_t *vaapi_properties(void *unused)
 
 	list = obs_properties_add_list(props, "vaapi_device", "VAAPI Device",
 			OBS_COMBO_TYPE_LIST, OBS_COMBO_FORMAT_STRING);
+<<<<<<< HEAD
 	char path[32] = "/dev/dri/renderD1";
+=======
+	char path[128] = "/dev/dri/renderD1";
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 	for (int i = 28;; i++) {
 		sprintf(path, "/dev/dri/renderD1%d", i);
 		if (access(path, F_OK) == 0) {
@@ -490,10 +518,15 @@ static obs_properties_t *vaapi_properties(void *unused)
 	obs_property_list_add_int(list, "720p60/1080p30 (4.1)", 41);
 	obs_property_list_add_int(list, "1080p60 (4.2)", 42);
 
+<<<<<<< HEAD
 	obs_property_t *p;
 	p = obs_properties_add_int(props, "bitrate", obs_module_text("Bitrate"), 0,
 			300000, 50);
 	obs_property_int_set_suffix(p, " Kbps");
+=======
+	obs_properties_add_int(props, "bitrate", obs_module_text("Bitrate"), 0,
+			300000, 50);
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 
 	obs_properties_add_int(props, "keyint_sec",
 			obs_module_text("Keyframe Interval (seconds)"), 0, 20,
@@ -520,6 +553,7 @@ static bool vaapi_sei_data(void *data, uint8_t **extra_data, size_t *size)
 	return true;
 }
 
+<<<<<<< HEAD
 struct obs_encoder_info vaapi_encoder_info = {
 	.id             = "ffmpeg_vaapi",
 	.type           = OBS_ENCODER_VIDEO,
@@ -534,5 +568,19 @@ struct obs_encoder_info vaapi_encoder_info = {
 	.get_sei_data   = vaapi_sei_data,
 	.get_video_info = vaapi_video_info
 };
+=======
+struct obs_encoder_info vaapi_encoder_info = {.id = "ffmpeg_vaapi",
+		.type                             = OBS_ENCODER_VIDEO,
+		.codec                            = "h264",
+		.get_name                         = vaapi_getname,
+		.create                           = vaapi_create,
+		.destroy                          = vaapi_destroy,
+		.encode                           = vaapi_encode,
+		.get_defaults                     = vaapi_defaults,
+		.get_properties                   = vaapi_properties,
+		.get_extra_data                   = vaapi_extra_data,
+		.get_sei_data                     = vaapi_sei_data,
+		.get_video_info                   = vaapi_video_info};
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 
 #endif

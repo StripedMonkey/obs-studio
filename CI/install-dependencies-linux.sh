@@ -2,7 +2,10 @@
 set -ex
 
 sudo add-apt-repository ppa:jonathonf/ffmpeg-3 -y
+<<<<<<< HEAD
 curl -L https://packagecloud.io/github/git-lfs/gpgkey | sudo apt-key add -
+=======
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 sudo apt-get -qq update
 sudo apt-get install -y \
         build-essential \
