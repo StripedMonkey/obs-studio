@@ -29,6 +29,7 @@ if(UNIX AND NOT APPLE)
 		${LIBVA_LBRARIES})
 endif()
 
+<<<<<<< HEAD
 if(WIN32)
 	list(APPEND obs-ffmpeg_SOURCES
 		jim-nvenc.c
@@ -37,6 +38,8 @@ if(WIN32)
 		jim-nvenc.h)
 endif()
 
+=======
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 add_library(obs-ffmpeg MODULE
 	${obs-ffmpeg_HEADERS}
 	${obs-ffmpeg_SOURCES})

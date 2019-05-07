@@ -314,11 +314,14 @@ static bool vaapi_supported(void)
 }
 #endif
 
+<<<<<<< HEAD
 #ifdef _WIN32
 extern void jim_nvenc_load(void);
 extern void jim_nvenc_unload(void);
 #endif
 
+=======
+>>>>>>> 57d29244e3c82e0ec67928bd68fb77a7469e1576
 bool obs_module_load(void)
 {
 	da_init(active_log_contexts);
